@@ -1,5 +1,5 @@
 import {
-    BadRequestException,
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -15,10 +15,15 @@ import {
 import { StudentsService } from './students.service';
 import { Student } from './student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
+import { SignInDto } from '../auth/dto/signIn.dto';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('students')
 export class StudentsController {
-  constructor(private studentService: StudentsService) {}
+  constructor(
+    private studentService: StudentsService,
+    private authService: AuthService,
+  ) {}
 
   @Get()
   async getStudents(): Promise<Student[]> {
@@ -89,8 +94,8 @@ export class StudentsController {
   async createStudent(@Body() newStudent: CreateStudentDto) {
     try {
       const student = await this.studentService.Create(newStudent);
-      if(!student){
-          return new BadRequestException('there is a user with that email');
+      if (!student) {
+        return new BadRequestException('there is a user with that email');
       }
       return student;
     } catch (err) {
@@ -98,6 +103,22 @@ export class StudentsController {
         'Error occurred while trying to create student',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+
+  @Post('/signIn')
+  @HttpCode(201)
+  async SignIn(@Body() credintial: SignInDto) {
+    try {
+      const token = await this.authService.StudentSignIn(credintial);
+      if(token === 0){
+        return new BadRequestException('Email not found');
+      }else if(token ===1 ){
+         return new BadRequestException('wrong password');
+      }
+      return token
+    } catch (err) {
+          throw new Error('an error occurred while signing in' + err.message);
     }
   }
 }
