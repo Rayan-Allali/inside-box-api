@@ -74,8 +74,16 @@ export class StudentsService {
     }
   }
 
-  async Create(newStudent: CreateStudentDto): Promise<Student> {
+  async Create(newStudent: CreateStudentDto): Promise<Student | null> {
     try {
+      const oldStudent = await this.studentRepository.findOne({
+        where: {
+          email: newStudent.email,
+        },
+      });
+      if (oldStudent) {
+        return null;
+      }
       const student = await this.studentRepository.create(newStudent);
       const randomPassword = generatePassword(12);
       student.password = await hash(randomPassword, 10);
@@ -90,16 +98,16 @@ export class StudentsService {
         `Best regards,\n`;
       //   + `${admin.name} (${admin.email})`;
 
-    //   const emailSubject = 'Your KeyBox.dz Account Has Been Created';
-    //   try {
-    //     await sendMail({
-    //       email: student.email,
-    //       text: `${emailText}`,
-    //       subject: emailSubject,
-    //     });
-    //   } catch (err) {
-    //     throw new Error('failed to send account to user' + err.message);
-    //   }
+      const emailSubject = 'Your KeyBox.dz Account Has Been Created';
+      try {
+        await sendMail({
+          email: student.email,
+          text: `${emailText}`,
+          subject: emailSubject,
+        });
+      } catch (err) {
+        throw new Error('failed to send account to user' + err.message);
+      }
       const savedStudent = await this.studentRepository.save(student);
       savedStudent.password = undefined;
       return savedStudent;

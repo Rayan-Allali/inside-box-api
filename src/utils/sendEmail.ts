@@ -2,11 +2,15 @@
 import { createTransport } from 'nodemailer';
 
 export async function sendMail({ html = undefined, text, email, subject }) {
+  console.log("login")
+  console.log(process.env.G_EMAIL)
+  console.log(process.env.G_PASSWORD)
   const transporter = createTransport({
     service: 'gmail',
     auth: {
+      type: 'login',
       user: process.env.G_EMAIL,
-      pass: process.env.G_PASSWORD,
+      pass: process.env.G_PASSWORD
     },
   });
 
@@ -18,7 +22,7 @@ export async function sendMail({ html = undefined, text, email, subject }) {
       subject,
       text,
       html: html,
-    });
+    })
 
     console.log('Email sent successfully');
   } catch (err) {
