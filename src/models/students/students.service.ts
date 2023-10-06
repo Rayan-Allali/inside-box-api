@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { generatePassword } from 'src/utils/randomPasswordGenerator';
 import { sendMail } from 'src/utils/sendEmail';
-import { SignInDto } from '../auth/dto/signIn.dto';
 
 @Injectable()
 export class StudentsService {

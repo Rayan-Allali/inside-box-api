@@ -6,10 +6,12 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
+import { Trainer } from '../trainer/trainer.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Student]),
+    TypeOrmModule.forFeature([Trainer]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: () => ({
