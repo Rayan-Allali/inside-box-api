@@ -91,7 +91,7 @@ export class StudentsController {
       return student;
     } catch (err) {
       throw new HttpException(
-        'Error occurred while trying to delete student',
+        'Error occurred while trying to create student',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

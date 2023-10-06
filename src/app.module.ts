@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StudentsController } from './models/students/students.controller';
 import { StudentsModule } from './models/students/students.module';
+import { AuthModule } from './models/auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -16,25 +16,9 @@ import { StudentsModule } from './models/students/students.module';
       }),
     }),
     StudentsModule,
-    // CategoryModule,
-    // RoadmapModule,
-    // CourseModule,
-    // CheckpointModule,
-    // GdgContentModule,
-    // TagModule,
-    // ProjectModule,
-    // RessourceModule,
-    // QuizzModule,
-    // UserModule,
-    // FeedbackModule,
-    // NotificationModule,
-    // ChallangeModule,
-    // ProjectSubmissionModule,
-    // UserPositionModule,
-    // ChallangeSubmissionModule,
-    // AuthModule,
+    AuthModule,
   ],
-  controllers: [AppController, StudentsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
