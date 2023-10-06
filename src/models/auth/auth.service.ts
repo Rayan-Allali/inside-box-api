@@ -22,10 +22,10 @@ export class AuthService {
         },
       });
       if (!student) {
-        throw new BadRequestException('Email not found');
+        return 0;
       }
       const isMatch = await compare(credntials.password, student.password);
-      if (!isMatch) throw new BadRequestException('wrong password');
+      if (!isMatch) return 1;
       const payload: JwtPayload = {
         name: student.name,
         id: student.id,
@@ -36,7 +36,7 @@ export class AuthService {
       return { accessToken };
     } catch (err) {
       console.error(err);
-      throw new Error('an error occurred while signing in' + err.message);
+      throw new Error(err);
     }
   }
 }
