@@ -7,6 +7,7 @@ import { StudentsModule } from './models/students/students.module';
 import { AuthModule } from './models/auth/auth.module';
 import { TrainerModule } from './models/trainer/trainer.module';
 import { AdminModule } from './models/admin/admin.module';
+import { FormationModule } from './models/formation/formation.module';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -21,6 +22,7 @@ import { AdminModule } from './models/admin/admin.module';
     AuthModule,
     TrainerModule,
     AdminModule,
+    FormationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
