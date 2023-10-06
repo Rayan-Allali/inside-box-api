@@ -11,12 +11,16 @@ import {
   Param,
   Post,
   Put,
+//   UseGuards,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { Student } from './student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { SignInDto } from '../auth/dto/signIn.dto';
 import { AuthService } from '../auth/auth.service';
+// import { AuthGuard } from '@nestjs/passport';
+// import { RolesGuard } from 'src/guards/roles.guard';
+// import { Roles } from '../auth/role.decorator';
 
 @Controller('students')
 export class StudentsController {
@@ -74,6 +78,7 @@ export class StudentsController {
 
   @Delete('/:id')
   @HttpCode(204)
+//   @Roles('Admin')
   async deleteStudent(@Param('id') id: number) {
     try {
       const student = await this.studentService.Delete(id);
@@ -91,6 +96,8 @@ export class StudentsController {
 
   @Post()
   @HttpCode(201)
+//   @UseGuards(AuthGuard(), RolesGuard)
+//   @Roles('Admin')
   async createStudent(@Body() newStudent: CreateStudentDto) {
     try {
       const student = await this.studentService.Create(newStudent);
@@ -111,14 +118,14 @@ export class StudentsController {
   async SignIn(@Body() credintial: SignInDto) {
     try {
       const token = await this.authService.StudentSignIn(credintial);
-      if(token === 0){
+      if (token === 0) {
         return new BadRequestException('Email not found');
-      }else if(token ===1 ){
-         return new BadRequestException('wrong password');
+      } else if (token === 1) {
+        return new BadRequestException('wrong password');
       }
-      return token
+      return token;
     } catch (err) {
-          throw new Error('an error occurred while signing in' + err.message);
+      throw new Error('an error occurred while signing in' + err.message);
     }
   }
 }

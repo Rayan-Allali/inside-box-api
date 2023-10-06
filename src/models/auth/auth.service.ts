@@ -1,6 +1,6 @@
 import { Admin } from './../admin/admin.entity';
 import { hash, compare } from 'bcrypt';
-import {  Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Student } from '../students/student.entity';
 import { Repository } from 'typeorm';
