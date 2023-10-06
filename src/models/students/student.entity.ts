@@ -13,6 +13,8 @@ export class Student {
   password: string;
   @Column({ default: 0 })
   exp: number;
+  @Column()
+  age: number;
   @Column({ nullable: true })
   pictureURL?: string;
 }
