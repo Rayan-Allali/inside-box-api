@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
   Body,
   Controller,
   Delete,
@@ -88,6 +89,9 @@ export class StudentsController {
   async createStudent(@Body() newStudent: CreateStudentDto) {
     try {
       const student = await this.studentService.Create(newStudent);
+      if(!student){
+          return new BadRequestException('there is a user with that email');
+      }
       return student;
     } catch (err) {
       throw new HttpException(
