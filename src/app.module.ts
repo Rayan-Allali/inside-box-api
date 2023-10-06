@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsModule } from './models/students/students.module';
 import { AuthModule } from './models/auth/auth.module';
 import { TrainerModule } from './models/trainer/trainer.module';
+import { AdminModule } from './models/admin/admin.module';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -19,6 +20,7 @@ import { TrainerModule } from './models/trainer/trainer.module';
     StudentsModule,
     AuthModule,
     TrainerModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,3 +1,4 @@
+import { Admin } from './../admin/admin.entity';
 import { hash, compare } from 'bcrypt';
 import {  Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,6 +15,8 @@ export class AuthService {
     private readonly studentRepo: Repository<Student>,
     @InjectRepository(Trainer)
     private readonly TrainerRepo: Repository<Trainer>,
+    @InjectRepository(Admin)
+    private readonly AdminRepo: Repository<Trainer>,
     private readonly jwtService: JwtService,
   ) {}
   async StudentSignIn(credntials: SignInDto) {
@@ -60,6 +63,32 @@ export class AuthService {
         id: Trainer.id,
         email: credntials.email,
         role: 'Trainer',
+      };
+      const accessToken: string = await this.jwtService.sign(payload);
+
+      return { accessToken };
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    }
+  }
+  async AdminSignIn(credntials: SignInDto) {
+    try {
+      const admin = await this.AdminRepo.findOne({
+        where: {
+          email: credntials.email,
+        },
+      });
+      if (!admin) {
+        return 0;
+      }
+      const isMatch = await compare(credntials.password, admin.password);
+      if (!isMatch) return 1;
+      const payload: JwtPayload = {
+        name: admin.name,
+        id: admin.id,
+        email: credntials.email,
+        role: 'Admin',
       };
       const accessToken: string = await this.jwtService.sign(payload);
 
