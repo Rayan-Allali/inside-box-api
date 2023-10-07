@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-export function generatePassword(length) {
+export function generatePassword(length:number) {
     let password = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

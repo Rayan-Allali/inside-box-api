@@ -6,18 +6,40 @@ import { Formation } from '../formation/formation.entity';
 export class Student {
   @PrimaryGeneratedColumn()
   id: number;
+  
   @Column()
-  name: string;
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
   @Column({ unique: true })
   email: string;
+  
   @Column()
   password: string;
+  
   @Column({ default: 0 })
   exp: number;
+  
   @Column()
   age: number;
+
+  @Column()
+  gender: string;
+
+  @Column()
+  address: string;
+
+  @Column()
+  phoneNumber: string;
+
+  @Column()
+  parentNumber: string;
+  
   @Column({ nullable: true })
   pictureURL?: string;
+  
   @Column({ default: "Student" })
   role:string
   // @OneToMany(()=>Formation,(formation)=>formation.student)

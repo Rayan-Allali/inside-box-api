@@ -33,7 +33,7 @@ export class AuthService {
       const isMatch = await compare(credntials.password, student.password);
       if (!isMatch) return 1;
       const payload: JwtPayload = {
-        name: student.name,
+        name: student.firstName + ' ' + student.lastName,
         id: student.id,
         email: credntials.email,
         role: 'Student',

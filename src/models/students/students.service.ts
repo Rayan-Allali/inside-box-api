@@ -90,7 +90,7 @@ export class StudentsService {
       console.log(randomPassword);
       console.log(student.password);
       const emailText =
-        `Dear ${student.name},\n\n` +
+        `Dear ${student.firstName + ' ' +student.lastName },\n\n` +
         `Your account at keyBox.dz has been created successfully. Here are your account details:\n\n` +
         `Username/Email: ${student.email}\n` +
         `Password: ${randomPassword}\n\n` +
