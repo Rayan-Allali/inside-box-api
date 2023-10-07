@@ -40,7 +40,7 @@ export class AuthService {
       };
       const accessToken: string = await this.jwtService.sign(payload);
 
-      return { accessToken };
+      return { accessToken , user:student };
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -67,7 +67,7 @@ export class AuthService {
       };
       const accessToken: string = await this.jwtService.sign(payload);
 
-      return { accessToken };
+      return { accessToken,user:Trainer };
     } catch (err) {
       console.error(err);
       throw new Error(err);
@@ -93,7 +93,7 @@ export class AuthService {
       };
       const accessToken: string = await this.jwtService.sign(payload);
 
-      return { accessToken };
+      return { accessToken,user:admin };
     } catch (err) {
       console.error(err);
       throw new Error(err);
