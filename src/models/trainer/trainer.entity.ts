@@ -14,6 +14,8 @@ export class Trainer {
   password: string;
   @Column({ nullable: true })
   pictureURL?: string;
+  @Column({ default: "Trainer" })
+  role:string
     // @OneToMany(()=>Formation,(formation)=>formation.trainer)
     // formations:Formation[]
 }

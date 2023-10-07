@@ -18,6 +18,8 @@ export class Student {
   age: number;
   @Column({ nullable: true })
   pictureURL?: string;
+  @Column({ default: "Student" })
+  role:string
   // @OneToMany(()=>Formation,(formation)=>formation.student)
   // formations:Formation[]
 }

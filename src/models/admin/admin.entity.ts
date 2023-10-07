@@ -13,4 +13,6 @@ export class Admin {
   password: string;
   @Column({ nullable: true })
   pictureURL?: string;
+  @Column({ default: "Admin" })
+  role:string
 }

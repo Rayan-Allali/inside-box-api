@@ -1,9 +1,12 @@
-
-// author.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Trainer } from '../trainer/trainer.entity';
 import { Student } from '../students/student.entity';
-
 
 @Entity()
 export class Formation {

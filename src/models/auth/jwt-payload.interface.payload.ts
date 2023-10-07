@@ -3,5 +3,5 @@ export interface JwtPayload {
   id: number;
   name: string;
   email: string;
-  role: string;
+  role: "Admin" | "Student" | "Trainer";
 }

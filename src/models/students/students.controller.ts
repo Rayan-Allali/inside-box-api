@@ -12,12 +12,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards 
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { StudentsService } from './students.service';
 import { Student } from './student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { SignInDto } from '../auth/dto/signIn.dto';
 import { AuthService } from '../auth/auth.service';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
 
 @Controller('students')
 export class StudentsController {
@@ -27,6 +31,7 @@ export class StudentsController {
   ) {}
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   async getStudents(): Promise<Student[]> {
     try {
       const students = await this.studentService.GetAll();
@@ -39,6 +44,7 @@ export class StudentsController {
     }
   }
   @Get('/:id')
+  @UseGuards(AuthGuard('jwt'))
   async getStudent(@Param('id') id: number) {
     try {
       const student = await this.studentService.GetOne(id);
@@ -55,6 +61,7 @@ export class StudentsController {
   }
 
   @Put('/:id')
+  @UseGuards(AuthGuard('jwt'))
   async updateStudent(
     @Param('id') id: number,
     @Body() newStudent: CreateStudentDto,
@@ -75,6 +82,8 @@ export class StudentsController {
 
   @Delete('/:id')
   @HttpCode(204)
+  // @UseGuards(AuthGuard('jwt'))
+  // @Roles('Admin')
   async deleteStudent(@Param('id') id: number) {
     try {
       const student = await this.studentService.Delete(id);
@@ -92,6 +101,9 @@ export class StudentsController {
 
   @Post()
   @HttpCode(201)
+  @Roles('Admin')
+  @UseGuards(AuthGuard('jwt'),RolesGuard)
+ 
   async createStudent(@Body() newStudent: CreateStudentDto) {
     try {
       const student = await this.studentService.Create(newStudent);
