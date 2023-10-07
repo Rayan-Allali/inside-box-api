@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Formation } from '../formation/formation.entity';
 
 @Entity()
 export class Trainer {
@@ -13,4 +14,6 @@ export class Trainer {
   password: string;
   @Column({ nullable: true })
   pictureURL?: string;
+    // @OneToMany(()=>Formation,(formation)=>formation.trainer)
+    // formations:Formation[]
 }

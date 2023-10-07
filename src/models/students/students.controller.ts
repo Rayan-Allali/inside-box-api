@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   BadRequestException,
   Body,
@@ -111,14 +112,14 @@ export class StudentsController {
   async SignIn(@Body() credintial: SignInDto) {
     try {
       const token = await this.authService.StudentSignIn(credintial);
-      if(token === 0){
+      if (token === 0) {
         return new BadRequestException('Email not found');
-      }else if(token ===1 ){
-         return new BadRequestException('wrong password');
+      } else if (token === 1) {
+        return new BadRequestException('wrong password');
       }
-      return token
+      return token;
     } catch (err) {
-          throw new Error('an error occurred while signing in' + err.message);
+      throw new Error('an error occurred while signing in' + err.message);
     }
   }
 }
