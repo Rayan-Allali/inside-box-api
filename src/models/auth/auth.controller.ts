@@ -8,10 +8,10 @@ export class AuthController {
   constructor(private authServ: AuthService) {}
 
   @Post('/signIn')
-  async studentSignIn(@Body() credential: SignInDto) {
+  async globalSignIn(@Body() credential: SignInDto) {
     try {
       const token = await this.authServ.GlobalSignIn(credential);
-      if (token === 0) {
+      if (token === 0 || !token) {
         return new BadRequestException('Email not found');
       } else if (token === 1) {
         return new BadRequestException('wrong password');

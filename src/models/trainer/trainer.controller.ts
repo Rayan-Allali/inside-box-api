@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   BadRequestException,
   Body,
@@ -11,12 +12,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { TrainerService } from './trainer.service';
 import { Trainer } from './trainer.entity';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { SignInDto } from '../auth/dto/signIn.dto';
 import { AuthService } from '../auth/auth.service';
+import { Roles } from '../auth/roles.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/roles.guard';
 
 @Controller('trainers')
 export class TrainerController {
@@ -25,6 +30,7 @@ export class TrainerController {
     private authService: AuthService,
   ) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getTrainers(): Promise<Trainer[]> {
     try {
@@ -37,6 +43,7 @@ export class TrainerController {
       );
     }
   }
+  @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
   async getTrainer(@Param('id') id: number) {
     try {
@@ -54,6 +61,8 @@ export class TrainerController {
   }
 
   @Put('/:id')
+  @Roles('Admin', 'Trainer')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   async updateTrainer(
     @Param('id') id: number,
     @Body() newTrainer: CreateTrainerDto,
@@ -74,6 +83,8 @@ export class TrainerController {
 
   @Delete('/:id')
   @HttpCode(204)
+  @Roles('Admin', 'Student')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   async deleteTrainer(@Param('id') id: number) {
     try {
       const Trainer = await this.trainerService.Delete(id);
@@ -91,6 +102,8 @@ export class TrainerController {
 
   @Post()
   @HttpCode(201)
+  @Roles('Admin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   async createTrainer(@Body() newTrainer: CreateTrainerDto) {
     try {
       const Trainer = await this.trainerService.Create(newTrainer);

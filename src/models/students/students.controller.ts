@@ -61,7 +61,8 @@ export class StudentsController {
   }
 
   @Put('/:id')
-  @UseGuards(AuthGuard('jwt'))
+  @Roles('Admin','Student')
+  @UseGuards(AuthGuard('jwt'),RolesGuard)
   async updateStudent(
     @Param('id') id: number,
     @Body() newStudent: CreateStudentDto,
@@ -82,8 +83,8 @@ export class StudentsController {
 
   @Delete('/:id')
   @HttpCode(204)
-  // @UseGuards(AuthGuard('jwt'))
-  // @Roles('Admin')
+  @Roles('Admin')
+  @UseGuards(AuthGuard('jwt'),RolesGuard)
   async deleteStudent(@Param('id') id: number) {
     try {
       const student = await this.studentService.Delete(id);
